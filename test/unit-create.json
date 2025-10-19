@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "7552df9c-ba79-4dfb-aefc-3a45432e2fee",
+		"name": "FakeAPI_store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47313334"
+	},
+	"item": [
+		{
+			"name": "Initial_settings",
+			"item": []
+		},
+		{
+			"name": "Unit_testing",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "create_create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Fixed invalid Chai property usage\r",
+											"let msgOk = `\\u{1F7E2}`;\r",
+											"let msgFail = `\\u{1F534}`;\r",
+											"let passTest = 0;\r",
+											"let failTest = 0;\r",
+											"let reqName = pm.info.requestName;\r",
+											"let showUrl = pm.request.url.toString();\r",
+											"let result = [];\r",
+											"// let testData = pm.request.body.raw;\r",
+											"//Function to run tests\r",
+											"function runTests(testName, condition, expectedValue, actual ) {\r",
+											"    let status, emoji;\r",
+											"    if (condition){\r",
+											"        status = \"Pass\";\r",
+											"        emoji = msgOk;\r",
+											"        passTest++;\r",
+											"    }\r",
+											"    else {\r",
+											"        status = \"Fail\";\r",
+											"        emoji = msgFail;\r",
+											"        failTest++;\r",
+											"    }\r",
+											"    result.push({testName:testName, condition:condition, expectedValue:expectedValue, actual:actual, emoji:emoji, status:status, reqName:reqName, showUrl:showUrl})\r",
+											"    pm.test(testName, ()=> {\r",
+											"        pm.expect(condition).to.be.true;\r",
+											"    })\r",
+											"    console.log(`testName:${String(testName).padEnd(30)} condition:${String(condition).padEnd(10)} expectedValue:${String(expectedValue).padEnd(40)} actual:${String(actual).padEnd(40)} status:${String(status).padEnd(10)} ${emoji}`)\r",
+											"}\r",
+											"//Test data \r",
+											"let datas = [\r",
+											"    {testName:\"status_code_201\", condition:pm.response.code === 201, expectedValue: 201, actual:pm.response.code},\r",
+											"    {testName:\"response_time\", condition:pm.response.responseTime < 1000, expectedValue: \"< 1000\", actual:pm.response.responseTime},\r",
+											"    {testName:\"verify_response_message\", condition:pm.response.json().id === 11 || 0, expectedValue:\"ID=0\", actual:pm.response.json().id},\r",
+											"    {testName:\"verify_message_type\", condition:pm.response.headers.get(\"Content-Type\").includes('application/json'), expectedValue:\"application/json\", actual:pm.response.headers.get(\"Content-Type\")},\r",
+											"    {testName:\"verify_Id_field\", condition:pm.response.json().hasOwnProperty(\"id\"), expectedValue:\"id\", actual:pm.response.json().hasOwnProperty(\"id\")}\r",
+											"]\r",
+											"\r",
+											"//Run tests\r",
+											"datas.forEach(test=>{(runTests(test.testName, test.condition, test.expectedValue, test.actual))})\r",
+											"\r",
+											"//Report tests\r",
+											"console.log(\"\\n\\n\")\r",
+											"let totalTests = passTest + failTest;\r",
+											"let passRate = ((passTest / totalTests) * 100).toFixed(0);\r",
+											"console.log(`totalTest:${String(totalTests).padEnd(50)} passTest:${String(passTest).padEnd(10)} failTest:${String(failTest).padEnd(10)} passRate:${passRate}`)\r",
+											"//Testdat to json\r",
+											"pm.environment.set(\"testDatas\", JSON.stringify(result))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//clear the console\r",
+											"console.clear();\r",
+											"// User creation\r",
+											"const fields = [\"FirstName\", \"Email\", \"Password\"];\r",
+											"const varName = [\"name\", \"email\", \"pssword\"];\r",
+											"const showUser = [];\r",
+											"fields.map((f, i)=>{\r",
+											"    let value = pm.variables.replaceIn(`{{$random${f}}}`);\r",
+											"    pm.environment.set(varName[i], value);\r",
+											"    showUser.push(value);\r",
+											"})\r",
+											"console.log(\"user is :\", showUser);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}users",
+									"host": [
+										"{{baseUrl}}users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Integration_testing",
+			"item": []
+		},
+		{
+			"name": "End_2_End_testing",
+			"item": []
+		},
+		{
+			"name": "Security_testing",
+			"item": []
+		},
+		{
+			"name": "Clear_up",
+			"item": []
+		}
+	]
+}

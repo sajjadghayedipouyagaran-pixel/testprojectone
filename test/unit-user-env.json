@@ -1,0 +1,39 @@
+{
+	"id": "b761e9e7-de43-4b1e-8a8a-032ad09408ce",
+	"name": "Fake_local",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "https://fakestoreapi.com/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "name",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "pssword",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "testDatas",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-09-14T09:35:09.420Z",
+	"_postman_exported_using": "Postman/11.62.8"
+}
